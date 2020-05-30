@@ -1,4 +1,5 @@
 import React from "react"
+import Button, { ButtonType, ButtonSize } from "./components/Button"
 
 function App() {
   return (
@@ -6,6 +7,21 @@ function App() {
       <header className="App-header">
         <h1>this is a h1</h1>
         <code>const a = "2333"</code>
+        <Button>hello</Button>
+        <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>
+          Primary&large
+        </Button>
+        <Button btnType={ButtonType.Link} href="https://seekinglight.cn/">
+          Link
+        </Button>
+        <Button disabled>不可选</Button>
+        <Button
+          href="https://seekinglight.cn/"
+          btnType={ButtonType.Link}
+          disabled
+        >
+          不可选的链接
+        </Button>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
