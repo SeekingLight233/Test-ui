@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <h1>this is a h1</h1>
         <code>const a = "2333"</code>
-        <Button>hello</Button>
+        <Button className="customer">hello</Button>
         <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>
           Primary&large
         </Button>
