@@ -14,6 +14,9 @@ function App() {
         <Button btnType={ButtonType.Link} href="https://seekinglight.cn/">
           Link
         </Button>
+        <Button btnType={ButtonType.Danger} href="https://seekinglight.cn/">
+          危险
+        </Button>
         <Button disabled>不可选</Button>
         <Button
           href="https://seekinglight.cn/"
