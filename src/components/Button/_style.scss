@@ -1,0 +1,30 @@
+//基本样式
+.btn {
+  position: relative;
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  color: $body-color;
+  white-space: nowrap; //设置不换行
+  text-align: center; //水平居中
+  vertical-align: middle; //垂直居中
+  background-image: none; //不设置背景图
+  border: $btn-border-width solid transparent;
+  padding: $btn-padding-y $btn-padding-x;
+  font-size: $btn-font-size;
+  border-radius: $border-radius;
+  box-shadow: $btn-box-shadow;
+  cursor: pointer; //设置鼠标放上去的效果，默认是小手
+  transition: $btn-transition;
+  &.disabled,
+  &[disabled] {
+    //根据元素属性选择
+    cursor: not-allowed;
+    opacity: $btn-disabled-opacity;
+    box-shadow: none;
+    > * {
+      //设置所有的子元素
+      pointer-events: none; //不接收鼠标事件
+    }
+  }
+}
