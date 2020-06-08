@@ -1,5 +1,7 @@
 import React from "react"
 import Button, { ButtonType, ButtonSize } from "./components/Button/Button"
+import Menu from "./components/Menu/menu"
+import MenuItem from "./components/Menu/menuItem"
 
 function App() {
   return (
@@ -7,6 +9,12 @@ function App() {
       <header className="App-header">
         <h1>this is a h1</h1>
         <code>const a = "2333"</code>
+        <Menu defaultIndex={0}>
+          <MenuItem>选项一</MenuItem>
+          <MenuItem>选项二</MenuItem>
+          <MenuItem>选项三</MenuItem>
+        </Menu>
+
         <Button className="customer">hello</Button>
         <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>
           Primary&large
