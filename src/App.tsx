@@ -9,10 +9,17 @@ function App() {
       <header className="App-header">
         <h1>this is a h1</h1>
         <code>const a = "2333"</code>
-        <Menu defaultIndex={0}>
-          <MenuItem>选项一</MenuItem>
-          <MenuItem>选项二</MenuItem>
-          <MenuItem>选项三</MenuItem>
+        <Menu
+          defaultIndex={0}
+          onSelect={(index) => {
+            alert(index)
+          }}
+        >
+          <MenuItem index={0} disabled>
+            选项一
+          </MenuItem>
+          <MenuItem index={1}>选项二</MenuItem>
+          <MenuItem index={2}>选项三</MenuItem>
         </Menu>
 
         <Button className="customer">hello</Button>
