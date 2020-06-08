@@ -14,7 +14,7 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
   const context = useContext(MenuContext)
   const classes = classNames("menu-item", className, {
     "is-disabled": disabled,
-    "is-active": context.index === index, //如果index配置，则该item高亮
+    "is-active": context.selectedIndex === index, //如果index配置，则该item高亮
   })
   const handleClick = () => {
     if (context.onSelect && !disabled) {

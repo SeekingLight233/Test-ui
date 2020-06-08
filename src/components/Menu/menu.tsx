@@ -11,11 +11,11 @@ export interface MenuProps {
   onSelect?: SelectCallback
 }
 interface IMenuContext {
-  index: number
+  selectedIndex: number
   onSelect?: SelectCallback
 }
 
-export const MenuContext = createContext<IMenuContext>({ index: 0 }) //默认选第一个
+export const MenuContext = createContext<IMenuContext>({ selectedIndex: 0 }) //默认选第一个
 const Menu: React.FC<MenuProps> = (props) => {
   const { className, mode, style, children, defaultIndex, onSelect } = props
   const [currentActive, setActive] = useState(defaultIndex)
@@ -31,7 +31,7 @@ const Menu: React.FC<MenuProps> = (props) => {
     }
   }
   const passedContext: IMenuContext = {
-    index: currentActive ? currentActive : 0, //做一下类型兼容处理，不存在设为0
+    selectedIndex: currentActive ? currentActive : 0, //做一下类型兼容处理，不存在设为0
     onSelect: handleCick,
   }
   return (
