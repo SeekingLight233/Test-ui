@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react"
 import classNames from "classnames"
+import MenuItem, { MenuItemProps } from "./menuItem"
 
 type MenuDirection = "horizontal" | "vertical"
 type SelectCallback = (selectIndex: number) => void
@@ -34,11 +35,26 @@ const Menu: React.FC<MenuProps> = (props) => {
     selectedIndex: currentActive ? currentActive : 0, //做一下类型兼容处理，不存在设为0
     onSelect: handleCick,
   }
+  //渲染Child
+  const renderChildren = () => {
+    return React.Children.map(children, (child, index) => {
+      const childElement = child as React.FunctionComponentElement<
+        MenuItemProps
+      >
+      const { displayName } = childElement.type
+      if (displayName === "MenuItem") {
+        //将index混入属性到childElement中，自动为每一个Item项生成索引
+        return React.cloneElement(childElement, { index })
+      } else {
+        console.error("警告:Menu中的组件必须为MenuItem类型!!!")
+      }
+    })
+  }
   return (
-    <ul className={classes} style={style}>
+    <ul className={classes} style={style} data-testid="test-menu">
       {/* 将context注入到provider中 */}
       <MenuContext.Provider value={passedContext}>
-        {children}
+        {renderChildren()}
       </MenuContext.Provider>
     </ul>
   )
@@ -48,5 +64,6 @@ Menu.defaultProps = {
   defaultIndex: 0,
   mode: "horizontal",
 }
-
+//包装显示名称
+MenuItem.displayName = "MenuItem"
 export default Menu
