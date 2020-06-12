@@ -1,6 +1,8 @@
 import React from "react"
 import Button, { ButtonType, ButtonSize } from "./components/Button/Button"
 import Menu from "./components/Menu/menu"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCoffee } from "@fortawesome/free-solid-svg-icons"
 import MenuItem from "./components/Menu/menuItem"
 import SubMenu from "./components/Menu/subMenu"
 
@@ -9,6 +11,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>this is a h1</h1>
+        <FontAwesomeIcon icon={faCoffee} size="lg"></FontAwesomeIcon>
         <code>const a = "2333"</code>
         <Menu
           defaultIndex="0"
