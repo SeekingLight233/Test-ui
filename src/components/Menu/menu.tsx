@@ -14,6 +14,7 @@ export interface MenuProps {
 interface IMenuContext {
   selectedIndex: number
   onSelect?: SelectCallback
+  mode?: MenuDirection
 }
 
 export const MenuContext = createContext<IMenuContext>({ selectedIndex: 0 }) //默认选第一个
@@ -35,6 +36,7 @@ const Menu: React.FC<MenuProps> = (props) => {
   const passedContext: IMenuContext = {
     selectedIndex: currentActive ? currentActive : 0, //做一下类型兼容处理，不存在设为0
     onSelect: handleCick,
+    mode,
   }
   //渲染Child
   const renderChildren = () => {
