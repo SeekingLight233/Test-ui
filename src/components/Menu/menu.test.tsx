@@ -8,14 +8,15 @@ import {
 
 import Menu, { MenuProps } from "./menu"
 import MenuItem from "./menuItem"
+import SubMenu from "./subMenu"
 
 const testProps: MenuProps = {
-  defaultIndex: 0,
+  defaultIndex: "0",
   onSelect: jest.fn(),
   className: "test",
 }
 const testVerProps: MenuProps = {
-  defaultIndex: 0,
+  defaultIndex: "0",
   mode: "vertical",
 }
 //创建函数用来渲染不同的组件
@@ -25,6 +26,12 @@ const generateMenu = (props: MenuProps) => {
       <MenuItem>active</MenuItem>
       <MenuItem disabled>disabled</MenuItem>
       <MenuItem>xyz</MenuItem>
+      <SubMenu title="dropdown">
+        <MenuItem>drop1</MenuItem>
+      </SubMenu>
+      <SubMenu title="opened">
+        <MenuItem>opened1</MenuItem>
+      </SubMenu>
     </Menu>
   )
 }
@@ -43,7 +50,8 @@ describe("测试菜单组件", () => {
   it("应该渲染正确的菜单", () => {
     expect(menuElement).toBeInTheDocument()
     expect(menuElement).toHaveClass("test-menu test")
-    expect(menuElement.getElementsByTagName("li").length).toBe(3)
+    expect(menuElement.getElementsByTagName("li").length).toBe(7)
+    expect(menuElement.querySelectorAll(":scope > li").length).toEqual(5)
     expect(activeElement).toHaveClass("menu-item is-active")
     expect(disabledElement).toHaveClass("menu-item is-disabled")
   })
@@ -53,11 +61,11 @@ describe("测试菜单组件", () => {
     expect(thirdItem).toHaveClass("is-active")
     //切换点击元素
     expect(activeElement).not.toHaveClass("is-active")
-    expect(testProps.onSelect).toHaveBeenCalledWith(2)
+    expect(testProps.onSelect).toHaveBeenCalledWith("2")
 
     fireEvent.click(disabledElement)
     expect(disabledElement).not.toHaveClass("is-active")
-    expect(testProps.onSelect).not.toHaveBeenCalledWith(1)
+    expect(testProps.onSelect).not.toHaveBeenCalledWith("1")
   })
   it("应该渲染垂直模式当模式设置为垂直时", () => {
     cleanup()

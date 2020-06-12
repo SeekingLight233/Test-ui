@@ -12,7 +12,6 @@ function App() {
         <code>const a = "2333"</code>
         <Menu
           defaultIndex="0"
-          mode="vertical"
           onSelect={(index) => {
             alert(index)
           }}
