@@ -22,7 +22,8 @@ const Menu: React.FC<MenuProps> = (props) => {
   const [currentActive, setActive] = useState(defaultIndex)
 
   const classes = classNames("test-menu", className, {
-    "menu-vertical": mode == "vertical", //mode设置为vertical则样式为'menu-vertical'
+    "menu-vertical": mode === "vertical", //mode设置为vertical则样式为'menu-vertical'
+    "menu-horizontal": mode !== "vertical",
   })
 
   const handleCick = (index: number) => {
@@ -42,7 +43,7 @@ const Menu: React.FC<MenuProps> = (props) => {
         MenuItemProps
       >
       const { displayName } = childElement.type
-      if (displayName === "MenuItem") {
+      if (displayName === "MenuItem" || displayName === "SubMenu") {
         //将index混入属性到childElement中，自动为每一个Item项生成索引
         return React.cloneElement(childElement, { index })
       } else {

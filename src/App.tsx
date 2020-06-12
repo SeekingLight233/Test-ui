@@ -2,6 +2,7 @@ import React from "react"
 import Button, { ButtonType, ButtonSize } from "./components/Button/Button"
 import Menu from "./components/Menu/menu"
 import MenuItem from "./components/Menu/menuItem"
+import SubMenu from "./components/Menu/subMenu"
 
 function App() {
   return (
@@ -10,31 +11,15 @@ function App() {
         <h1>this is a h1</h1>
         <code>const a = "2333"</code>
         <Menu defaultIndex={1} mode="vertical">
-          <MenuItem index={0} disabled>
-            选项一
-          </MenuItem>
-          <MenuItem index={1}>选项二</MenuItem>
-          <MenuItem index={2}>选项三</MenuItem>
+          <MenuItem disabled>选项一</MenuItem>
+          <MenuItem>选项二</MenuItem>
+          <SubMenu title="标题">
+            <MenuItem>下拉菜单一</MenuItem>
+            <MenuItem>下拉菜单二</MenuItem>
+          </SubMenu>
+          <MenuItem>选项三</MenuItem>
         </Menu>
 
-        <Button className="customer">hello</Button>
-        <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>
-          Primary&large
-        </Button>
-        <Button btnType={ButtonType.Link} href="https://seekinglight.cn/">
-          Link
-        </Button>
-        <Button btnType={ButtonType.Danger} href="https://seekinglight.cn/">
-          危险
-        </Button>
-        <Button disabled>不可选</Button>
-        <Button
-          href="https://seekinglight.cn/"
-          btnType={ButtonType.Link}
-          disabled
-        >
-          不可选的链接
-        </Button>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
