@@ -10,7 +10,14 @@ function App() {
       <header className="App-header">
         <h1>this is a h1</h1>
         <code>const a = "2333"</code>
-        <Menu defaultIndex={1} mode="vertical">
+        <Menu
+          defaultIndex="0"
+          mode="vertical"
+          onSelect={(index) => {
+            alert(index)
+          }}
+          defaultOpenSubMenus={["0"]}
+        >
           <MenuItem disabled>选项一</MenuItem>
           <MenuItem>选项二</MenuItem>
           <SubMenu title="标题">

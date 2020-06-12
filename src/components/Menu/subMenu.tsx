@@ -10,7 +10,7 @@ import { MenuContext } from "./menu"
 import { MenuItemProps } from "./menuItem"
 
 export interface SubMenuProps {
-  index?: number
+  index?: string
   title: string
   className?: string
 }
@@ -21,8 +21,13 @@ const SubMenu: React.FC<SubMenuProps> = ({
   children,
   className,
 }) => {
-  const [menuOpen, setOpen] = useState(false)
   const context = useContext(MenuContext)
+  const openedSubMenus = context.defaultOpenSubMenus as Array<string>
+  const isOpend =
+    index && context.mode === "vertical"
+      ? openedSubMenus.includes(index)
+      : false
+  const [menuOpen, setOpen] = useState(isOpend)
   const classes = classNames("menu-item submenu-item", className, {
     "is-active": context.selectedIndex === index,
   })
@@ -61,10 +66,10 @@ const SubMenu: React.FC<SubMenuProps> = ({
       "menu-opened": !menuOpen,
     })
 
-    const childrenComponent = React.Children.map(children, (child, index) => {
+    const childrenComponent = React.Children.map(children, (child, i) => {
       const childElement = child as FunctionComponentElement<MenuItemProps>
       if (childElement.type.displayName === "MenuItem") {
-        return childElement
+        return React.cloneElement(childElement, { index: `${index}-${i}` })
       } else {
         console.error("警告:Menu中的组件必须为MenuItem类型!!!")
       }

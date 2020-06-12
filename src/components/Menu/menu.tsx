@@ -3,23 +3,33 @@ import classNames from "classnames"
 import MenuItem, { MenuItemProps } from "./menuItem"
 
 type MenuDirection = "horizontal" | "vertical"
-type SelectCallback = (selectIndex: number) => void
+type SelectCallback = (selectIndex: string) => void
 export interface MenuProps {
-  defaultIndex?: number
+  defaultIndex?: string
   className?: string
   mode?: MenuDirection
   style?: React.CSSProperties
   onSelect?: SelectCallback
+  defaultOpenSubMenus?: string[]
 }
 interface IMenuContext {
-  selectedIndex: number
+  selectedIndex: string
   onSelect?: SelectCallback
   mode?: MenuDirection
+  defaultOpenSubMenus?: string[]
 }
 
-export const MenuContext = createContext<IMenuContext>({ selectedIndex: 0 }) //默认选第一个
+export const MenuContext = createContext<IMenuContext>({ selectedIndex: "0" }) //默认选第一个
 const Menu: React.FC<MenuProps> = (props) => {
-  const { className, mode, style, children, defaultIndex, onSelect } = props
+  const {
+    className,
+    mode,
+    style,
+    children,
+    defaultIndex,
+    onSelect,
+    defaultOpenSubMenus,
+  } = props
   const [currentActive, setActive] = useState(defaultIndex)
 
   const classes = classNames("test-menu", className, {
@@ -27,16 +37,17 @@ const Menu: React.FC<MenuProps> = (props) => {
     "menu-horizontal": mode !== "vertical",
   })
 
-  const handleCick = (index: number) => {
+  const handleCick = (index: string) => {
     setActive(index)
     if (onSelect) {
       onSelect(index)
     }
   }
   const passedContext: IMenuContext = {
-    selectedIndex: currentActive ? currentActive : 0, //做一下类型兼容处理，不存在设为0
+    selectedIndex: currentActive ? currentActive : "0", //做一下类型兼容处理，不存在设为0
     onSelect: handleCick,
     mode,
+    defaultOpenSubMenus,
   }
   //渲染Child
   const renderChildren = () => {
@@ -47,7 +58,7 @@ const Menu: React.FC<MenuProps> = (props) => {
       const { displayName } = childElement.type
       if (displayName === "MenuItem" || displayName === "SubMenu") {
         //将index混入属性到childElement中，自动为每一个Item项生成索引
-        return React.cloneElement(childElement, { index })
+        return React.cloneElement(childElement, { index: index.toString() })
       } else {
         console.error("警告:Menu中的组件必须为MenuItem类型!!!")
       }
@@ -64,8 +75,9 @@ const Menu: React.FC<MenuProps> = (props) => {
 }
 
 Menu.defaultProps = {
-  defaultIndex: 0,
+  defaultIndex: "0",
   mode: "horizontal",
+  defaultOpenSubMenus: [],
 }
 //包装显示名称
 MenuItem.displayName = "MenuItem"
