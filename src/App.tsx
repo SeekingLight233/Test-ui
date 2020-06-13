@@ -1,17 +1,19 @@
 import React from "react"
-import Button, { ButtonType, ButtonSize } from "./components/Button/Button"
+import { library } from "@fortawesome/fontawesome-svg-core"
 import Menu from "./components/Menu/menu"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCoffee } from "@fortawesome/free-solid-svg-icons"
+import { fas } from "@fortawesome/free-solid-svg-icons" //导入所有图标
 import MenuItem from "./components/Menu/menuItem"
 import SubMenu from "./components/Menu/subMenu"
+import Icon from "./components/Icon"
 
+library.add(fas)
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <h1>this is a h1</h1>
-        <FontAwesomeIcon icon={faCoffee} size="lg"></FontAwesomeIcon>
+        <Icon icon="arrow-alt-circle-up" theme="danger" size="10x"></Icon>
         <code>const a = "2333"</code>
         <Menu
           defaultIndex="0"
