@@ -1,46 +1,29 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactHTMLElement,
-  FunctionComponentElement,
-} from "react"
-import classNames from "classnames"
-import { MenuContext } from "./menu"
-import { MenuItemProps } from "./menuItem"
-import Icon from "../Icon"
-
+import React,{ useContext, useState, FunctionComponentElement } from 'react'
+import classNames from 'classnames'
+import { MenuContext } from './menu'
+import { MenuItemProps } from './menuItem'
+import Icon from '../Icon/icon'
+import Transition from '../Transition/transition'
 export interface SubMenuProps {
-  index?: string
-  title: string
-  className?: string
+  index?: string;
+  title: string;
+  className?: string;
 }
 
-const SubMenu: React.FC<SubMenuProps> = ({
-  index,
-  title,
-  children,
-  className,
-}) => {
+const SubMenu: React.FC<SubMenuProps> = ({ index, title, children, className}) => {
   const context = useContext(MenuContext)
   const openedSubMenus = context.defaultOpenSubMenus as Array<string>
-  const isOpend =
-    index && context.mode === "vertical"
-      ? openedSubMenus.includes(index)
-      : false
-  const [menuOpen, setOpen] = useState(isOpend)
-  const classes = classNames("menu-item submenu-item", className, {
-    "is-active": context.selectedIndex === index,
-    "is-opened": menuOpen,
-    "is-vertical": context.mode === "vertical",
+  const isOpend = (index && context.mode === 'vertical') ? openedSubMenus.includes(index) : false
+  const [ menuOpen, setOpen ] = useState(isOpend)
+  const classes = classNames('menu-item submenu-item', className, {
+    'is-active': context.index === index,
+    'is-opened': menuOpen,
+    'is-vertical': context.mode === 'vertical'
   })
-
-  //切换下拉菜单开关状态
-  const toggle = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setOpen(!menuOpen)
   }
-
   let timer: any
   const handleMouse = (e: React.MouseEvent, toggle: boolean) => {
     clearTimeout(timer)
@@ -49,47 +32,49 @@ const SubMenu: React.FC<SubMenuProps> = ({
       setOpen(toggle)
     }, 300)
   }
-  //创建两个事件对象
-  const clickEvents = context.mode === "vertical" ? { onClick: toggle } : {}
-  const hoverEvents =
-    context.mode === "horizontal"
-      ? {
-          onMouseEnter: (e: React.MouseEvent) => {
-            handleMouse(e, true)
-          },
-          onMouseLeave: (e: React.MouseEvent) => {
-            handleMouse(e, false)
-          },
-        }
-      : {}
-
-  //渲染下拉菜单中的内容
+  const clickEvents = context.mode === 'vertical' ? {
+    onClick: handleClick
+  } : {}
+  const hoverEvents = context.mode !== 'vertical' ? {
+    onMouseEnter: (e: React.MouseEvent) => { handleMouse(e, true)},
+    onMouseLeave: (e: React.MouseEvent) => { handleMouse(e, false)}
+  } : {}
   const renderChildren = () => {
-    const subMenuClasses = classNames("test-submenu", {
-      "menu-opened": !menuOpen,
+    const subMenuClasses = classNames('viking-submenu', {
+      'menu-opened': menuOpen
     })
-
     const childrenComponent = React.Children.map(children, (child, i) => {
       const childElement = child as FunctionComponentElement<MenuItemProps>
-      if (childElement.type.displayName === "MenuItem") {
-        return React.cloneElement(childElement, { index: `${index}-${i}` })
+      if (childElement.type.displayName === 'MenuItem') {
+        return React.cloneElement(childElement, {
+          index: `${index}-${i}`
+        })
       } else {
-        console.error("警告:Menu中的组件必须为MenuItem类型!!!")
+        console.error("Warning: SubMenu has a child which is not a MenuItem component")
       }
     })
-    return <ul className={subMenuClasses}>{childrenComponent}</ul>
+    return (
+      <Transition
+        in={menuOpen}
+        timeout={300}
+        animation="zoom-in-top"
+      >
+        <ul className={subMenuClasses}>
+          {childrenComponent}
+        </ul>
+      </Transition>
+    )
   }
-
   return (
     <li key={index} className={classes} {...hoverEvents}>
-      <div className="submenu-title" onClick={toggle} {...clickEvents}>
+      <div className="submenu-title" {...clickEvents}>
         {title}
-        <Icon icon="angle-down" className="arrow-icon"></Icon>
+        <Icon icon="angle-down" className="arrow-icon"/>
       </div>
       {renderChildren()}
     </li>
   )
 }
 
-SubMenu.displayName = "SubMenu"
+SubMenu.displayName = 'SubMenu'
 export default SubMenu

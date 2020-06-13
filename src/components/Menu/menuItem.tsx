@@ -1,24 +1,23 @@
-import React, { useContext } from "react"
-import classNames from "classnames"
-import { MenuContext } from "./menu"
-
+import React, { useContext } from 'react'
+import classNames from 'classnames'
+import { MenuContext } from './menu'
 export interface MenuItemProps {
-  index?: string //用来和menu中的defaultindex做比较
-  disabled?: boolean
-  className?: string
-  style?: React.CSSProperties
+  index?: string;
+  disabled?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const MenuItem: React.FC<MenuItemProps> = (props) => {
   const { index, disabled, className, style, children } = props
   const context = useContext(MenuContext)
-  const classes = classNames("menu-item", className, {
-    "is-disabled": disabled,
-    "is-active": context.selectedIndex === index, //如果index配置，则该item高亮
+  const classes = classNames('menu-item', className, {
+    'is-disabled': disabled,
+    'is-active': context.index === index
   })
   const handleClick = () => {
-    if (context.onSelect && !disabled && typeof index === "string") {
-      context.onSelect(index) //不要忘了将当前的index传给开发者自定义的函数
+    if (context.onSelect && !disabled && (typeof index === 'string')) {
+      context.onSelect(index)
     }
   }
   return (
@@ -28,4 +27,5 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
   )
 }
 
+MenuItem.displayName = 'MenuItem'
 export default MenuItem

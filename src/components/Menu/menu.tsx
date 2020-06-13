@@ -1,84 +1,78 @@
-import React, { createContext, useState } from "react"
-import classNames from "classnames"
-import MenuItem, { MenuItemProps } from "./menuItem"
+import React, { FC, useState, createContext, CSSProperties } from 'react'
+import classNames from 'classnames'
+import { MenuItemProps } from './menuItem'
 
-type MenuDirection = "horizontal" | "vertical"
-type SelectCallback = (selectIndex: string) => void
+type MenuMode = 'horizontal' | 'vertical'
 export interface MenuProps {
-  defaultIndex?: string
-  className?: string
-  mode?: MenuDirection
-  style?: React.CSSProperties
-  onSelect?: SelectCallback
-  defaultOpenSubMenus?: string[]
+  /**默认 active 的菜单项的索引值 */
+  defaultIndex?: string;
+  className?: string;
+  /**菜单类型 横向或者纵向 */
+  mode?: MenuMode;
+  style?: CSSProperties;
+  /**点击菜单项触发的回掉函数 */
+  onSelect?: (selectedIndex: string) => void;
+  /**设置子菜单的默认打开 只在纵向模式下生效 */
+  defaultOpenSubMenus?: string[];
 }
 interface IMenuContext {
-  selectedIndex: string
-  onSelect?: SelectCallback
-  mode?: MenuDirection
-  defaultOpenSubMenus?: string[]
+  index: string;
+  onSelect?: (selectedIndex: string) => void;
+  mode?: MenuMode;
+  defaultOpenSubMenus?: string[];  
 }
 
-export const MenuContext = createContext<IMenuContext>({ selectedIndex: "0" }) //默认选第一个
-const Menu: React.FC<MenuProps> = (props) => {
-  const {
-    className,
-    mode,
-    style,
-    children,
-    defaultIndex,
-    onSelect,
-    defaultOpenSubMenus,
-  } = props
-  const [currentActive, setActive] = useState(defaultIndex)
-
-  const classes = classNames("test-menu", className, {
-    "menu-vertical": mode === "vertical", //mode设置为vertical则样式为'menu-vertical'
-    "menu-horizontal": mode !== "vertical",
+export const MenuContext = createContext<IMenuContext>({index: '0'})
+/**
+ * 为网站提供导航功能的菜单。支持横向纵向两种模式，支持下拉菜单。
+ * ~~~js
+ * import { Menu } from 'vikingship'
+ * ~~~
+ */
+export const Menu: FC<MenuProps> = (props) => {
+  const { className, mode, style, children, defaultIndex, onSelect, defaultOpenSubMenus } = props
+  const [ currentActive, setActive ] = useState(defaultIndex)
+  const classes = classNames('viking-menu', className, {
+    'menu-vertical': mode === 'vertical',
+    'menu-horizontal': mode !== 'vertical',
   })
-
-  const handleCick = (index: string) => {
+  const handleClick = (index: string) => {
     setActive(index)
-    if (onSelect) {
+    if(onSelect) {
       onSelect(index)
     }
   }
   const passedContext: IMenuContext = {
-    selectedIndex: currentActive ? currentActive : "0", //做一下类型兼容处理，不存在设为0
-    onSelect: handleCick,
+    index: currentActive ? currentActive : '0',
+    onSelect: handleClick,
     mode,
     defaultOpenSubMenus,
   }
-  //渲染Child
   const renderChildren = () => {
     return React.Children.map(children, (child, index) => {
-      const childElement = child as React.FunctionComponentElement<
-        MenuItemProps
-      >
+      const childElement = child as React.FunctionComponentElement<MenuItemProps>
       const { displayName } = childElement.type
-      if (displayName === "MenuItem" || displayName === "SubMenu") {
-        //将index混入属性到childElement中，自动为每一个Item项生成索引
-        return React.cloneElement(childElement, { index: index.toString() })
+      if (displayName === 'MenuItem' || displayName === 'SubMenu') {
+        return React.cloneElement(childElement, {
+          index: index.toString()
+        })
       } else {
-        console.error("警告:Menu中的组件必须为MenuItem类型!!!")
+        console.error("Warning: Menu has a child which is not a MenuItem component")
       }
     })
   }
   return (
     <ul className={classes} style={style} data-testid="test-menu">
-      {/* 将context注入到provider中 */}
       <MenuContext.Provider value={passedContext}>
         {renderChildren()}
       </MenuContext.Provider>
     </ul>
   )
 }
-
 Menu.defaultProps = {
-  defaultIndex: "0",
-  mode: "horizontal",
+  defaultIndex: '0',
+  mode: 'horizontal',
   defaultOpenSubMenus: [],
 }
-//包装显示名称
-MenuItem.displayName = "MenuItem"
-export default Menu
+
+export default Menu;

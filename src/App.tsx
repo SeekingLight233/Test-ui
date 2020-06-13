@@ -21,7 +21,6 @@ function App() {
             alert(index)
           }}
           defaultOpenSubMenus={["0"]}
-          mode="vertical"
         >
           <MenuItem disabled>选项一</MenuItem>
           <MenuItem>选项二</MenuItem>

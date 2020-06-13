@@ -1,6 +1,4 @@
-@import "../../styles/mixin";
-
-.test-menu {
+.viking-menu {
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
@@ -8,12 +6,11 @@
   list-style: none;
   border-bottom: $menu-border-width solid $menu-border-color;
   box-shadow: $menu-box-shadow;
-  > .menu-item {
+  >.menu-item {
     padding: $menu-item-padding-y $menu-item-padding-x;
     cursor: pointer;
     transition: $menu-transition;
-    &:hover,
-    &:focus {
+    &:hover, &:focus {
       text-decoration: none;
     }
     &.is-disabled {
@@ -21,11 +18,9 @@
       pointer-events: none;
       cursor: default;
     }
-    &.is-active,
-    &:hover {
+    &.is-active, &:hover {
       color: $menu-item-active-color;
-      border-bottom: $menu-item-active-border-width solid
-        $menu-item-active-color;
+      border-bottom: $menu-item-active-border-width solid $menu-item-active-color;
     }
   }
   .submenu-item {
@@ -35,12 +30,11 @@
       align-items: center;
     }
     .arrow-icon {
-      transition: transform 0.25s ease-in-out; //使得旋转效果更加平滑
+      transition: transform .25s ease-in-out;
       margin-left: 3px;
     }
     &:hover {
       .arrow-icon {
-        //将图标旋转180度
         transform: rotate(180deg);
       }
     }
@@ -55,9 +49,9 @@
       transform: rotate(180deg) !important;
     }
   }
-  .test-submenu {
+  .viking-submenu {
     //display: none;
-    list-style: none;
+    list-style:none;
     padding-left: 0;
     white-space: nowrap;
     //transition: $menu-transition;
@@ -66,22 +60,20 @@
       cursor: pointer;
       transition: $menu-transition;
       color: $body-color;
-      &.is-active,
-      &:hover {
+      &.is-active, &:hover {
         color: $menu-item-active-color !important;
       }
     }
   }
-  .test-submenu.menu-opened {
-    display: block;
-    display: none;
+  .viking-submenu.menu-opened {
+    //display: block;
   }
 }
 .menu-horizontal {
-  > .menu-item {
+  >.menu-item {
     border-bottom: $menu-item-active-border-width solid transparent;
   }
-  .test-submenu {
+  .viking-submenu {
     position: absolute;
     background: $white;
     z-index: 100;
@@ -96,10 +88,9 @@
   border-bottom: 0px;
   margin: 10px 20px;
   border-right: $menu-border-width solid $menu-border-color;
-  > .menu-item {
+  >.menu-item {
     border-left: $menu-item-active-border-width solid transparent;
-    &.is-active,
-    &:hover {
+    &.is-active, &:hover {
       border-bottom: 0px;
       border-left: $menu-item-active-border-width solid $menu-item-active-color;
     }
