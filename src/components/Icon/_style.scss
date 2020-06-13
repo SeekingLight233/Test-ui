@@ -1,4 +1,5 @@
 @each $key, $val in $theme-colors {
+  //利用@each动态生成主题class
   .icon-#{$key} {
     color: $val;
   }

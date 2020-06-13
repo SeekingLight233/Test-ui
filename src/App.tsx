@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>this is a h1</h1>
-        <Icon icon="arrow-alt-circle-up" theme="danger" size="10x"></Icon>
+        <Icon icon="arrow-alt-circle-up" theme="primary" size="10x"></Icon>
         <code>const a = "2333"</code>
         <Menu
           defaultIndex="0"
