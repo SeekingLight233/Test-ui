@@ -8,6 +8,7 @@ import React, {
 import classNames from "classnames"
 import { MenuContext } from "./menu"
 import { MenuItemProps } from "./menuItem"
+import Icon from "../Icon"
 
 export interface SubMenuProps {
   index?: string
@@ -30,6 +31,8 @@ const SubMenu: React.FC<SubMenuProps> = ({
   const [menuOpen, setOpen] = useState(isOpend)
   const classes = classNames("menu-item submenu-item", className, {
     "is-active": context.selectedIndex === index,
+    "is-opened": menuOpen,
+    "is-vertical": context.mode === "vertical",
   })
 
   //切换下拉菜单开关状态
@@ -81,6 +84,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
     <li key={index} className={classes} {...hoverEvents}>
       <div className="submenu-title" onClick={toggle} {...clickEvents}>
         {title}
+        <Icon icon="angle-down" className="arrow-icon"></Icon>
       </div>
       {renderChildren()}
     </li>

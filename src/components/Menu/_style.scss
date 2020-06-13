@@ -35,11 +35,12 @@
       align-items: center;
     }
     .arrow-icon {
-      transition: transform 0.25s ease-in-out;
+      transition: transform 0.25s ease-in-out; //使得旋转效果更加平滑
       margin-left: 3px;
     }
     &:hover {
       .arrow-icon {
+        //将图标旋转180度
         transform: rotate(180deg);
       }
     }
